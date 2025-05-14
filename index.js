@@ -27,7 +27,7 @@ app.post("/recipes", (req, res) => {
 });
 
 app.get("/recipes/:id", (req, res) => {
-  res.send(`Show Recipe with ID`);
+  res.send("Show Recipe with ID");
 });
 
 app.get("/recipes", (req, res) => {
