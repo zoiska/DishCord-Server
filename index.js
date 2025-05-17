@@ -7,23 +7,23 @@ const cors = require("cors");
 app.use(cors());
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.status(200).send("Hello World!");
 });
 
 app.post("/auth/login", (req, res) => {
-  res.send("User Login");
+  res.status(200).send("User Login");
 });
 
 app.post("/auth/register", (req, res) => {
-  res.send("User Registration");
+  res.status(200).send("User Registration");
 });
 
 app.get("/auth/logout", (req, res) => {
-  res.send("User Logout");
+  res.status(200).send("User Logout");
 });
 
 app.post("/recipes", (req, res) => {
-  res.send("Create a new Recipe");
+  res.status(200).send("Create a new Recipe");
 });
 
 app.get("/recipes/:id", (req, res) => {
@@ -31,15 +31,15 @@ app.get("/recipes/:id", (req, res) => {
   const recipe = recipes.find((r) => r.id === id);
 
   if (recipe) {
-    res.json(recipe);
+    res.status(200).json(recipe);
   } else {
-    res.status(404).json("These is not the recipe you are looking for 👻");
+    res.status(404).json("This is not the recipe you are looking for 👻");
   }
 });
 
 app.get("/recipes", (req, res) => {
   if (recipes) {
-    res.send(recipes);
+    res.status(200).json(recipes);
   } else {
     res.status(500).json("Database gone");
   }
