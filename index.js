@@ -1,3 +1,5 @@
+const recipes = require("./cooldatabase");
+
 const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -8,15 +10,11 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
-
-app.get("/auth/login", (req, res) => {
+app.post("/auth/login", (req, res) => {
   res.send("User Login");
 });
 
-app.get("/auth/register", (req, res) => {
+app.post("/auth/register", (req, res) => {
   res.send("User Registration");
 });
 
@@ -29,9 +27,24 @@ app.post("/recipes", (req, res) => {
 });
 
 app.get("/recipes/:id", (req, res) => {
-  res.send("Show Recipe with ID");
+  const id = req.params.id;
+  const recipe = recipes.find((r) => r.id === id);
+
+  if (recipe) {
+    res.json(recipe);
+  } else {
+    res.status(404).json("These is not the recipe you are looking for 👻");
+  }
 });
 
 app.get("/recipes", (req, res) => {
-  res.send("Show all Recipes");
+  if (recipes) {
+    res.send(recipes);
+  } else {
+    res.status(500).json("Database gone");
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
