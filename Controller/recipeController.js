@@ -1,4 +1,4 @@
-const recipes = require("./cooldatabase");
+const recipes = require("../cooldatabase");
 
 function getAllRecipes(req, res) {
   if (recipes) {
