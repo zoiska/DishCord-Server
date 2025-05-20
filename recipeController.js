@@ -1,6 +1,6 @@
 const recipes = require("./cooldatabase");
 
-export function getAllRecipes(req, res) {
+function getAllRecipes(req, res) {
   if (recipes) {
     res.status(200).json(recipes);
   } else {
@@ -8,7 +8,7 @@ export function getAllRecipes(req, res) {
   }
 }
 
-export function getRecipeById(req, res) {
+function getRecipeById(req, res) {
   const id = req.params.id;
   const recipe = recipes.find((r) => r.id === id);
 
@@ -19,6 +19,12 @@ export function getRecipeById(req, res) {
   }
 }
 
-export function createRecipe(req, res) {
+function createRecipe(req, res) {
   res.status(200).send("Create a new Recipe");
 }
+
+module.exports = {
+  getAllRecipes,
+  getRecipeById,
+  createRecipe,
+};
