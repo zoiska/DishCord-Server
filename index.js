@@ -1,5 +1,5 @@
-const recipeController = require("./Controller/recipeController");
-const authController = require("./Controller/authController");
+const recipeController = require("./controllers/recipeController");
+const authController = require("./controllers/authController");
 
 const express = require("express");
 const app = express();
