@@ -1,4 +1,5 @@
-const recipes = require("./cooldatabase");
+const recipeController = require("./Controller/recipeController");
+const authController = require("./Controller/authController");
 
 const express = require("express");
 const app = express();
@@ -7,42 +8,31 @@ const cors = require("cors");
 app.use(cors());
 
 app.get("/", (req, res) => {
-  res.status(200).send("Hello World!");
+  res.status(200).send("Connected to the server");
 });
 
 app.post("/auth/login", (req, res) => {
-  res.status(200).send("User Login");
+  authController.login(req, res);
 });
 
 app.post("/auth/register", (req, res) => {
-  res.status(200).send("User Registration");
+  authController.register(req, res);
 });
 
 app.get("/auth/logout", (req, res) => {
-  res.status(200).send("User Logout");
+  authController.logout(req, res);
 });
 
 app.post("/recipes", (req, res) => {
-  res.status(200).send("Create a new Recipe");
+  recipeController.createRecipe(req, res);
 });
 
 app.get("/recipes/:id", (req, res) => {
-  const id = req.params.id;
-  const recipe = recipes.find((r) => r.id === id);
-
-  if (recipe) {
-    res.status(200).json(recipe);
-  } else {
-    res.status(404).json("This is not the recipe you are looking for 👻");
-  }
+  recipeController.getRecipeById(req, res);
 });
 
 app.get("/recipes", (req, res) => {
-  if (recipes) {
-    res.status(200).json(recipes);
-  } else {
-    res.status(500).json("Database gone");
-  }
+  recipeController.getAllRecipes(req, res);
 });
 
 app.listen(PORT, () => {
