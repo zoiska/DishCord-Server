@@ -1,4 +1,3 @@
-const recipes = require("../cooldatabase");
 const Recipe = require("../models/recipe");
 
 async function getAllRecipes(req, res) {
@@ -24,7 +23,20 @@ async function getRecipeById(req, res) {
 }
 
 async function createRecipe(req, res) {
-  res.status(200).send("Create a new Recipe");
+  const recipeData = req.body;
+  console.log("Recipe data:", recipeData);
+  // will be implemented in the future, needs testing
+  /*
+  try {
+    const newRecipe = new Recipe(recipeData);
+    await newRecipe.save();
+    res.status(201).json(newRecipe);
+  } catch (error) {
+    console.error("Error creating recipe:", error);
+    res.status(400).json({ error: "Invalid recipe data" });
+  }
+  */
+  res.status(201).send("Create a new Recipe");
 }
 
 module.exports = {
