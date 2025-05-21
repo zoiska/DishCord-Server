@@ -5,8 +5,8 @@ const recipeSchema = new mongoose.Schema({
   name: String,
   ingredients: [{ name: String, amount: String }],
   preparation: String,
-  category: { name: String },
-  tags: [{ name: String }],
+  category: String,
+  tags: [String],
 });
 
 const Recipe = mongoose.model("Recipe", recipeSchema);
