@@ -1,14 +1,17 @@
 const recipes = require("../cooldatabase");
+const Recipe = require("../models/recipe");
 
-function getAllRecipes(req, res) {
-  if (recipes) {
+async function getAllRecipes(req, res) {
+  try {
+    const recipes = await Recipe.find();
     res.status(200).json(recipes);
-  } else {
-    res.status(500).json("Database gone");
+  } catch (error) {
+    console.error("Error fetching recipes:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 }
 
-function getRecipeById(req, res) {
+async function getRecipeById(req, res) {
   const id = req.params.id;
   const recipe = recipes.find((r) => r.id === id);
 
@@ -19,7 +22,7 @@ function getRecipeById(req, res) {
   }
 }
 
-function createRecipe(req, res) {
+async function createRecipe(req, res) {
   res.status(200).send("Create a new Recipe");
 }
 
