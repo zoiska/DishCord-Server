@@ -1,26 +1,42 @@
-const recipes = require("../cooldatabase");
+const Recipe = require("../models/recipe");
 
-function getAllRecipes(req, res) {
-  if (recipes) {
+async function getAllRecipes(req, res) {
+  try {
+    const recipes = await Recipe.find();
     res.status(200).json(recipes);
-  } else {
-    res.status(500).json("Database gone");
+  } catch (error) {
+    console.error("Error fetching recipes:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 }
 
-function getRecipeById(req, res) {
-  const id = req.params.id;
-  const recipe = recipes.find((r) => r.id === id);
-
-  if (recipe) {
+async function getRecipeById(req, res) {
+  const { id } = req.params;
+  try {
+    const recipe = await Recipe.findOne({ id: id });
+    if (!recipe) return res.status(404).json({ error: "Recipe not found" });
     res.status(200).json(recipe);
-  } else {
-    res.status(404).json("This is not the recipe you are looking for 👻");
+  } catch (error) {
+    console.error("Error fetching recipe:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 }
 
-function createRecipe(req, res) {
-  res.status(200).send("Create a new Recipe");
+async function createRecipe(req, res) {
+  const recipeData = req.body;
+  console.log("Recipe data:", recipeData);
+  // will be implemented in the future, needs testing
+  /*
+  try {
+    const newRecipe = new Recipe(recipeData);
+    await newRecipe.save();
+    res.status(201).json(newRecipe);
+  } catch (error) {
+    console.error("Error creating recipe:", error);
+    res.status(400).json({ error: "Invalid recipe data" });
+  }
+  */
+  res.status(201).send("Create a new Recipe");
 }
 
 module.exports = {
