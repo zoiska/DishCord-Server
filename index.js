@@ -41,13 +41,10 @@ app.listen(PORT, () => {
 });
 
 mongoose
-  .connect("mongodb://localhost:27017/DishCordDB", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect("mongodb://localhost:27017/DishCordDB")
   .then(() => {
-    console.log("MongoDB verbunden");
+    console.log("MongoDB connected");
   })
   .catch((err) => {
-    console.error("MongoDB Fehler:", err);
+    console.error("MongoDB could not connect:", err);
   });
