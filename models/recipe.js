@@ -7,6 +7,7 @@ const recipeSchema = new mongoose.Schema({
   preparation: String,
   category: String,
   tags: [String],
+  author: String,
 });
 
 const Recipe = mongoose.model("Recipe", recipeSchema);
