@@ -1,8 +1,10 @@
 require("dotenv").config();
 
+const cors = require("cors");
 const express = require("express");
 const mongoose = require("mongoose");
-const cors = require("cors");
+const multer = require("multer");
+const path = require("path");
 
 const authController = require("./controllers/authController");
 const recipeController = require("./controllers/recipeController");
@@ -11,10 +13,22 @@ const app = express();
 const PORT = process.env.PORT;
 const DB_URL = process.env.DB_URL;
 
-app.use(cors());
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+app.use(cors());
+app.use("/uploads", express.static("uploads"));
+app.use(express.json());
+
+const storage = multer.diskStorage({
+  destination: "uploads/",
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname)); // z.B. 1716312345678.jpg
+  },
+});
+const upload = multer({ storage });
+
 mongoose
   .connect(DB_URL)
   .then(() => {
@@ -40,7 +54,7 @@ app.get("/auth/logout", (req, res) => {
   authController.logout(req, res);
 });
 
-app.post("/recipes", (req, res) => {
+app.post("/recipes", upload.array("images", 5), (req, res) => {
   recipeController.createRecipe(req, res);
 });
 
