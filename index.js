@@ -53,6 +53,10 @@ app.post("/auth/register", (req, res) => {
   authController.register(req, res);
 });
 
+app.post("/auth/status", (req, res) => {
+  authController.status(req, res);
+});
+
 app.get("/auth/logout", (req, res) => {
   authController.logout(req, res);
 });

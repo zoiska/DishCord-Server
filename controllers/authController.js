@@ -9,6 +9,9 @@ function login(req, res, next) {
     if (err) {
       return res.status(500).json({ Error: err.message });
     }
+    if (!user) {
+      return res.status(401).json({ message: "Invalid username or password" });
+    }
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRATION,
     });
@@ -23,9 +26,20 @@ function register(req, res) {
       console.error("Error registering user:", err);
       return res.status(500).json({ error: "Error registering user" });
     }
-    passport.authenticate("local")(req, res, () => {
-      res.status(200).json({ message: "User registered successfully" });
-    });
+    res.status(200).json({ message: "User registered successfully" });
+  });
+}
+
+function status(req, res) {
+  const token = req.headers.authorization;
+  if (!token) {
+    return res.status(401).json({ message: "User is not logged in" });
+  }
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ message: "Invalid token" });
+    }
+    return res.status(200).json({ message: "Valid token", userId: decoded.id });
   });
 }
 
@@ -37,5 +51,6 @@ function logout(req, res) {
 module.exports = {
   login,
   register,
+  status,
   logout,
 };
