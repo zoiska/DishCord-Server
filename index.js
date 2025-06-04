@@ -66,7 +66,6 @@ app.post("/recipes", upload.array("images", 5), (req, res) => {
 });
 
 app.get("/recipes/search", (req, res) => {
-  console.log("test");
   recipeController.searchRecipes(req, res);
 });
 
