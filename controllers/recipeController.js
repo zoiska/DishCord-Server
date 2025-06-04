@@ -39,8 +39,20 @@ async function createRecipe(req, res) {
   res.status(201).send("Create a new Recipe");
 }
 
+async function searchRecipes(req, res) {
+  const { query } = req.query;
+  try {
+    const recipes = await Recipe.find({ name: new RegExp(query, "i") });
+    res.status(200).json(recipes);
+  } catch (error) {
+    console.error("Error searching recipes:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
 module.exports = {
   getAllRecipes,
   getRecipeById,
   createRecipe,
+  searchRecipes,
 };
