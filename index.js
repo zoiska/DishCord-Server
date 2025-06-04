@@ -72,3 +72,7 @@ app.get("/recipes/:id", (req, res) => {
 app.get("/recipes", (req, res) => {
   recipeController.getAllRecipes(req, res);
 });
+
+app.get("/recipes/search", (req, res) => {
+  recipeController.searchRecipes(req, res);
+});
