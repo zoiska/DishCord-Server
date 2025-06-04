@@ -65,14 +65,15 @@ app.post("/recipes", upload.array("images", 5), (req, res) => {
   recipeController.createRecipe(req, res);
 });
 
+app.get("/recipes/search", (req, res) => {
+  console.log("test");
+  recipeController.searchRecipes(req, res);
+});
+
 app.get("/recipes/:id", (req, res) => {
   recipeController.getRecipeById(req, res);
 });
 
 app.get("/recipes", (req, res) => {
   recipeController.getAllRecipes(req, res);
-});
-
-app.get("/recipes/search", (req, res) => {
-  recipeController.searchRecipes(req, res);
 });
