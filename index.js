@@ -9,6 +9,7 @@ const passport = require("passport");
 
 const authController = require("./controllers/authController");
 const recipeController = require("./controllers/recipeController");
+const serviceStatusController = require("./controllers/serviceStatusController");
 
 const app = express();
 const PORT = process.env.PORT;
@@ -71,4 +72,8 @@ app.get("/recipes/:id", (req, res) => {
 
 app.get("/recipes", (req, res) => {
   recipeController.getAllRecipes(req, res);
+});
+
+app.get("/service-status", (req, res) => {
+  serviceStatusController.getServiceStatus(req, res);
 });
