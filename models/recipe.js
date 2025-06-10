@@ -9,6 +9,8 @@ const recipeSchema = new mongoose.Schema({
   tags: [String],
   author: String,
   imageUrls: [String],
+  likeCount: Number,
+  dislikeCount: Number,
 });
 
 const Recipe = mongoose.model("Recipe", recipeSchema);
