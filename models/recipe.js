@@ -11,7 +11,6 @@ const recipeSchema = new mongoose.Schema({
   imageUrls: [String],
   likeCount: Number,
   dislikeCount: Number,
-  comments: [String],
 });
 
 const Recipe = mongoose.model("Recipe", recipeSchema);
