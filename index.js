@@ -83,6 +83,6 @@ app.get("/service-status", (req, res) => {
   serviceStatusController.getServiceStatus(req, res);
 });
 
-app.post("/users/me", (req, res) => {
-  userController.getUserById(req, res);
+app.get("/user-context/", (req, res) => {
+  userController.getUserContext(req, res);
 });
