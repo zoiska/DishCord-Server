@@ -15,7 +15,10 @@ function login(req, res, next) {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRATION,
     });
-    res.status(200).json({ message: "User logged in successfully", token });
+    res.status(200).json({
+      message: "User logged in successfully",
+      token,
+    });
   })(req, res, next);
 }
 
