@@ -68,6 +68,10 @@ app.post("/recipes/bookmark", (req, res) => {
   interactionController.bookmarkRecipe(req, res);
 });
 
+app.post("/recipes/sentiment", (req, res) => {
+  interactionController.sentimentRecipe(req, res);
+});
+
 app.post("/recipes", upload.array("images", 5), (req, res) => {
   recipeController.createRecipe(req, res);
 });
