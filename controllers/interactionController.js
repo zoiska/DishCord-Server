@@ -82,8 +82,8 @@ async function sentimentRecipe(req, res) {
         !user.dislikedRecipes.includes(recipeId) &&
         user.likedRecipes.includes(recipeId)
       ) {
-        recipe.dislikes += 1;
-        recipe.dislikeCount -= 1;
+        recipe.dislikeCount += 1;
+        recipe.likeCount -= 1;
         user.dislikedRecipes.push(recipeId);
         const index = user.likedRecipes.indexOf(recipeId);
         if (index > -1) {
