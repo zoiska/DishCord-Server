@@ -7,10 +7,12 @@ async function bookmarkRecipe(req, res) {
   if (!token) {
     return res.status(401).json({ message: "No valid token provided" });
   }
+
   jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
     if (err) {
       return res.status(401).json({ message: "Invalid token" });
     }
+
     const userId = decoded.id;
     const { recipeId } = req.body;
 
@@ -23,6 +25,11 @@ async function bookmarkRecipe(req, res) {
       const recipe = await Recipe.findById(recipeId);
       if (!recipe) {
         return res.status(404).json({ message: "Recipe not found" });
+      }
+
+      const isAlreadyBookmarked = user.favoriteRecipes.some((id) => id.toString() === recipeId);
+      if (isAlreadyBookmarked) {
+        return res.status(400).json({ message: "Recipe already bookmarked" });
       }
 
       user.favoriteRecipes.push(recipeId);
