@@ -71,7 +71,9 @@ async function sentimentRecipe(req, res) {
       const isDisliked = user.dislikedRecipes.some((id) => id.toString() === recipeId);
       if (sentiment === "like") {
         if (isLiked) {
-          return res.status(400).json({ message: "Recipe already liked" });
+          user.likedRecipes.pull(recipeId);
+          recipe.likeCount -= 1;
+          return res.status(200).json({ message: "Recipe like removed successfully" });
         }
         user.likedRecipes.addToSet(recipeId);
         recipe.likeCount += 1;
@@ -84,7 +86,9 @@ async function sentimentRecipe(req, res) {
         return res.status(200).json({ message: "Recipe liked successfully" });
       } else if (sentiment === "dislike") {
         if (isDisliked) {
-          return res.status(400).json({ message: "Recipe already disliked" });
+          user.dislikedRecipes.pull(recipeId);
+          recipe.dislikeCount -= 1;
+          return res.status(200).json({ message: "Recipe dislike removed successfully" });
         }
         user.dislikedRecipes.addToSet(recipeId);
         recipe.dislikeCount += 1;
