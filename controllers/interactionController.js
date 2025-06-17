@@ -29,12 +29,14 @@ async function bookmarkRecipe(req, res) {
 
       const isAlreadyBookmarked = user.favoriteRecipes.some((id) => id.toString() === recipeId);
       if (isAlreadyBookmarked) {
-        return res.status(400).json({ message: "Recipe already bookmarked" });
+        user.favoriteRecipes.pull(recipeId);
+        await user.save();
+        return res.status(200).json({ message: "Recipe removed from bookmarks" });
+      } else {
+        user.favoriteRecipes.addToSet(recipeId);
+        await user.save();
+        return res.status(200).json({ message: "Recipe bookmarked successfully" });
       }
-
-      user.favoriteRecipes.push(recipeId);
-      await user.save();
-      return res.status(200).json({ message: "Recipe bookmarked successfully" });
     } catch (error) {
       return res.status(500).json({ message: "internal server error: ", error });
     }
