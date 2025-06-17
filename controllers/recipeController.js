@@ -50,6 +50,17 @@ async function searchRecipes(req, res) {
   }
 }
 
+async function filterRecipesByAuthor(req, res) {
+  const { query } = req.query;
+  try {
+    const recipes = await Recipe.find({ author: new RegExp(query, "i") });
+    res.status(200).json(recipes);
+  } catch (error) {
+    console.error("Error searching recipes:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
 module.exports = {
   getAllRecipes,
   getRecipeById,
