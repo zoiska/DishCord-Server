@@ -73,6 +73,8 @@ async function sentimentRecipe(req, res) {
         if (isLiked) {
           user.likedRecipes.pull(recipeId);
           recipe.likeCount -= 1;
+          await user.save();
+          await recipe.save();
           return res.status(200).json({ message: "Recipe like removed successfully" });
         }
         user.likedRecipes.addToSet(recipeId);
@@ -88,6 +90,8 @@ async function sentimentRecipe(req, res) {
         if (isDisliked) {
           user.dislikedRecipes.pull(recipeId);
           recipe.dislikeCount -= 1;
+          await user.save();
+          await recipe.save();
           return res.status(200).json({ message: "Recipe dislike removed successfully" });
         }
         user.dislikedRecipes.addToSet(recipeId);
