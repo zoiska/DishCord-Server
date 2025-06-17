@@ -52,6 +52,7 @@ async function searchRecipes(req, res) {
 
 async function filterRecipesByAuthor(req, res) {
   const { query } = req.query;
+  console.log("Filtering recipes by author:", query);
   try {
     const recipes = await Recipe.find({ author: new RegExp(query, "i") });
     res.status(200).json(recipes);
