@@ -7,10 +7,12 @@ async function bookmarkRecipe(req, res) {
   if (!token) {
     return res.status(401).json({ message: "No valid token provided" });
   }
+
   jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
     if (err) {
       return res.status(401).json({ message: "Invalid token" });
     }
+
     const userId = decoded.id;
     const { recipeId } = req.body;
 
@@ -25,9 +27,16 @@ async function bookmarkRecipe(req, res) {
         return res.status(404).json({ message: "Recipe not found" });
       }
 
-      user.favoriteRecipes.push(recipeId);
-      await user.save();
-      return res.status(200).json({ message: "Recipe bookmarked successfully" });
+      const isAlreadyBookmarked = user.favoriteRecipes.some((id) => id.toString() === recipeId);
+      if (isAlreadyBookmarked) {
+        user.favoriteRecipes.pull(recipeId);
+        await user.save();
+        return res.status(200).json({ message: "Recipe removed from bookmarks" });
+      } else {
+        user.favoriteRecipes.addToSet(recipeId);
+        await user.save();
+        return res.status(200).json({ message: "Recipe bookmarked successfully" });
+      }
     } catch (error) {
       return res.status(500).json({ message: "internal server error: ", error });
     }
