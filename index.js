@@ -88,6 +88,10 @@ app.get("/recipes/:id", (req, res) => {
   recipeController.getRecipeById(req, res);
 });
 
+app.delete("/recipes/:id", (req, res) => {
+  recipeController.deleteRecipe(req, res);
+});
+
 app.get("/recipes", (req, res) => {
   recipeController.getAllRecipes(req, res);
 });
