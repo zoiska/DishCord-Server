@@ -84,6 +84,10 @@ app.post("/recipes", upload.array("images", 5), (req, res) => {
   recipeController.createRecipe(req, res);
 });
 
+app.get("/recipes/filter/author", (req, res) => {
+  recipeController.filterRecipesByAuthor(req, res);
+});
+
 app.get("/recipes/search", (req, res) => {
   recipeController.searchRecipes(req, res);
 });
