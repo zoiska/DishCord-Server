@@ -80,4 +80,5 @@ module.exports = {
   createRecipe,
   searchRecipes,
   filterRecipesByAuthor,
+  deleteRecipe,
 };
