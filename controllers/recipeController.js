@@ -42,7 +42,6 @@ async function createRecipe(req, res) {
 
 async function deleteRecipe(req, res) {
   const { id } = req.params;
-  console.log("ID found", id);
   try {
     const recipe = await Recipe.findOneAndDelete({ _id: id });
     if (!recipe) return res.status(404).json({ error: "Recipe not found" });
