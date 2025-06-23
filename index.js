@@ -72,6 +72,14 @@ app.post("/recipes/sentiment", (req, res) => {
   interactionController.sentimentRecipe(req, res);
 });
 
+app.post("/recipes/comment", (req, res) => {
+  interactionController.createComment(req, res);
+});
+
+app.get("/recipes/comments", (req, res) => {
+  interactionController.getAllComments(req, res);
+});
+
 app.post("/recipes", upload.array("images", 5), (req, res) => {
   recipeController.createRecipe(req, res);
 });
@@ -94,6 +102,10 @@ app.get("/recipes/:id", (req, res) => {
 
 app.get("/recipes", (req, res) => {
   recipeController.getAllRecipes(req, res);
+});
+
+app.delete("/recipes/:recipeId/:commentId", (req, res) => {
+  interactionController.deleteComment(req, res);
 });
 
 app.delete("/recipes/:id", (req, res) => {
