@@ -15,7 +15,6 @@ async function getUserContext(req, res) {
       const user = await User.findById(_id).select(
         "username ownRecipes likedRecipes dislikedRecipes favoriteRecipes"
       );
-      console.log("User fetched successfully:", user);
       if (!user) return res.status(404).json({ error: "User not found" });
       return res.status(200).json({ message: "Token verified, returning userData", user });
     } catch (error) {

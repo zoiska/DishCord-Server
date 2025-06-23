@@ -89,6 +89,7 @@ app.get("/recipes/:id", (req, res) => {
 });
 
 app.delete("/recipes/:id", (req, res) => {
+  console.log("deleting...");
   recipeController.deleteRecipe(req, res);
 });
 
