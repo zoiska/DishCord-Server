@@ -82,6 +82,17 @@ async function filterRecipesByAuthor(req, res) {
   }
 }
 
+async function getRandomRecipe(req, res) {
+  try {
+    const randomRecipe = (await Recipe.aggregate([{ $sample: { size: 1 } }]).exec())[0];
+    if (!randomRecipe) return res.status(404).json({ error: "No recipes found" });
+    res.status(200).json(randomRecipe);
+  } catch (error) {
+    console.error("Error fetching random recipe:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
 module.exports = {
   getAllRecipes,
   getRecipeById,
@@ -89,4 +100,5 @@ module.exports = {
   searchRecipes,
   filterRecipesByAuthor,
   deleteRecipe,
+  getRandomRecipe,
 };
