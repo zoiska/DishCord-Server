@@ -45,6 +45,15 @@ async function deleteRecipe(req, res) {
   try {
     const recipe = await Recipe.findOneAndDelete({ id: id });
     if (!recipe) return res.status(404).json({ error: "Recipe not found" });
+    const recipeId = recipe._id;
+    const users = db.collection("users");
+    await users.forEach((user) => {
+      user.ownRecipes.pull(recipeId);
+      user.favoriteRecipes.pull(recipeId);
+      user.likedRecipes.pull(recipeId);
+      user.dislikedRecipes.pull(recipeId);
+      user.save();
+    });
     res.status(200).json({ message: "Recipe deleted successfully" });
   } catch (error) {
     console.error("Error deleting recipe:", error);
