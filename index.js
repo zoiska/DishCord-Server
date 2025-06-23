@@ -80,6 +80,10 @@ app.get("/recipes/filter/author", (req, res) => {
   recipeController.filterRecipesByAuthor(req, res);
 });
 
+app.get("/recipes/random", (req, res) => {
+  recipeController.getRandomRecipe(req, res);
+});
+
 app.get("/recipes/search", (req, res) => {
   recipeController.searchRecipes(req, res);
 });
@@ -88,12 +92,12 @@ app.get("/recipes/:id", (req, res) => {
   recipeController.getRecipeById(req, res);
 });
 
-app.delete("/recipes/:id", (req, res) => {
-  recipeController.deleteRecipe(req, res);
-});
-
 app.get("/recipes", (req, res) => {
   recipeController.getAllRecipes(req, res);
+});
+
+app.delete("/recipes/:id", (req, res) => {
+  recipeController.deleteRecipe(req, res);
 });
 
 app.get("/service-status", (req, res) => {
