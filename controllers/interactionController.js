@@ -143,8 +143,8 @@ async function createComment(req, res) {
     const { query, commentText, timestamp } = req.body;
 
     try {
-      const user = await User.findById(userId);
-      if (!user) {
+      const userName = await User.findById(userId);
+      if (!userName) {
         return res.status(404).json({ message: "User not found" });
       }
 
