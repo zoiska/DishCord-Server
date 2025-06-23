@@ -104,6 +104,10 @@ app.get("/recipes", (req, res) => {
   recipeController.getAllRecipes(req, res);
 });
 
+app.delete("/recipes/:recipeId/:commentId", (req, res) => {
+  interactionController.deleteComment(req, res);
+});
+
 app.delete("/recipes/:id", (req, res) => {
   recipeController.deleteRecipe(req, res);
 });

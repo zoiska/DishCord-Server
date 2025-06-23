@@ -129,7 +129,6 @@ async function getAllComments(req, res) {
 }
 
 async function createComment(req, res) {
-  console.log("req");
   const token = req.headers.authorization;
   if (!token) {
     return res.status(401).json({ message: "No valid token provided" });
@@ -140,20 +139,20 @@ async function createComment(req, res) {
     }
 
     const userId = decoded.id;
-    const { query, commentText, timestamp } = req.body;
+    const { recipeId, commentText, timestamp } = req.body;
 
     try {
-      const userName = await User.findById(userId);
+      const userName = await User.findById(userId).select("username");
       if (!userName) {
         return res.status(404).json({ message: "User not found" });
       }
 
-      const recipe = await Recipe.findById(query);
+      const recipe = await Recipe.findById({ _id: recipeId });
       if (!recipe) {
         return res.status(404).json({ message: "Recipe not found" });
       }
 
-      const newComment = { author: userId, commentText: commentText, timestamp: timestamp };
+      const newComment = { author: userName, timestamp: timestamp, commentText: commentText };
       recipe.comments.push(newComment);
       await recipe.save();
 
@@ -165,9 +164,40 @@ async function createComment(req, res) {
   });
 }
 
+async function deleteComment(req, res) {
+  const token = req.headers.authorization;
+  const { recipeId, commentId } = req.params;
+  if (!token) {
+    return res.status(401).json({ message: "No valid token provided" });
+  }
+  jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ message: "Invalid token" });
+    }
+
+    try {
+      const recipe = await Recipe.findById(recipeId);
+      if (!recipe) {
+        return res.status(404).json({ message: "Recipe not found" });
+      }
+      const comment = recipe.comments.findIndex((c) => c._id.toString() === commentId);
+      if (comment === -1) {
+        return res.status(404).json({ message: "Comment not found" });
+      }
+      recipe.comments.splice(comment, 1);
+      await recipe.save();
+      return res.status(200).json({ message: "Comment deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+      return res.status(500).json({ message: "Internal server error", error });
+    }
+  });
+}
+
 module.exports = {
   bookmarkRecipe,
   sentimentRecipe,
   getAllComments,
   createComment,
+  deleteComment,
 };
