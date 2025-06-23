@@ -44,7 +44,7 @@ async function deleteRecipe(req, res) {
   const { id } = req.params;
   console.log("ID found", id);
   try {
-    const recipe = await Recipe.findOneAndDelete({ id: id });
+    const recipe = await Recipe.findOneAndDelete({ _id: id });
     if (!recipe) return res.status(404).json({ error: "Recipe not found" });
     const users = await User.find();
     for (const user of users) {
