@@ -1,4 +1,5 @@
 const Recipe = require("../models/recipe");
+const User = require("../models/user");
 
 async function getAllRecipes(req, res) {
   try {
@@ -39,21 +40,19 @@ async function createRecipe(req, res) {
   res.status(201).send("Create a new Recipe");
 }
 
-//Todo delete recipe from all other apperances
 async function deleteRecipe(req, res) {
   const { id } = req.params;
   try {
-    const recipe = await Recipe.findOneAndDelete({ id: id });
+    const recipe = await Recipe.findOne({ id: id });
     if (!recipe) return res.status(404).json({ error: "Recipe not found" });
-    const recipeId = recipe._id;
-    const users = db.collection("users");
-    await users.forEach((user) => {
-      user.ownRecipes.pull(recipeId);
-      user.favoriteRecipes.pull(recipeId);
-      user.likedRecipes.pull(recipeId);
-      user.dislikedRecipes.pull(recipeId);
+    const users = await User.find();
+    for (const user of users) {
+      user.ownRecipes.pull(id);
+      user.favoriteRecipes.pull(id);
+      user.likedRecipes.pull(id);
+      user.dislikedRecipes.pull(id);
       user.save();
-    });
+    }
     res.status(200).json({ message: "Recipe deleted successfully" });
   } catch (error) {
     console.error("Error deleting recipe:", error);
