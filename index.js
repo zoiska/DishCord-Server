@@ -37,7 +37,6 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, "uploads/"),
   filename: (req, file, cb) => {
     cb(null, Date.now() + file.originalname);
-    console.log("File uploaded:", file.originalname);
   },
 });
 const upload = multer({
@@ -93,8 +92,6 @@ app.get("/recipes/comments", (req, res) => {
 });
 
 app.post("/recipes", upload.array("images", 5), (req, res) => {
-  console.log("CREATING RECIPE");
-  console.log("Files received:", req.images);
   recipeController.createRecipe(req, res);
 });
 
