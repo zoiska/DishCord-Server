@@ -26,6 +26,11 @@ app.use(
     origin: "*",
     methods: ["GET", "POST", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    accessControlAllowOrigin: "*",
+    accessControlAllowCredentials: true,
+    optionsSuccessStatus: 200,
+    preflightContinue: false,
+    credentials: true,
   })
 );
 
@@ -44,7 +49,7 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage,
   limits: {
-    fileSize: 10 * 1024 * 1024, // 10 MB pro Datei
+    fileSize: 10 * 1024 * 1024,
   },
 });
 
@@ -94,6 +99,7 @@ app.get("/recipes/comments", (req, res) => {
 });
 
 app.post("/recipes", upload.array("images", 5), (req, res) => {
+  console.log("CREATING RECIPE");
   recipeController.createRecipe(req, res);
 });
 
