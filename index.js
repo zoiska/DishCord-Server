@@ -34,14 +34,14 @@ app.use(express.json());
 app.use(passport.initialize());
 
 const storage = multer.diskStorage({
-  destination: "public/uploads/",
+  destination: (req, file, cb) => cb(null, "uploads/"),
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
+    cb(null, Date.now() + file.originalname);
     console.log("File uploaded:", file.originalname);
   },
 });
 const upload = multer({
-  storage,
+  storage: storage,
   limits: {
     fileSize: 10 * 1024 * 1024,
   },
