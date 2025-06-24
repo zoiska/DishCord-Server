@@ -63,8 +63,6 @@ async function sentimentRecipe(req, res) {
       }
 
       const recipe = await Recipe.findById(recipeId);
-      console.log("Recipe found:", recipe);
-      console.log("Recipe ID:", recipeId);
       if (!recipe) {
         return res.status(404).json({ message: "Recipe not found" });
       }
