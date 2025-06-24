@@ -28,7 +28,6 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-app.options("*", cors());
 
 app.use("/uploads", express.static("public/uploads"));
 app.use(express.json());
