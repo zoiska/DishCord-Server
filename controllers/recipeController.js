@@ -30,7 +30,8 @@ async function createRecipe(req, res) {
       ...req.body,
       imageUrls,
     });
-    await newRecipe.save();
+    console.log("New Recipe:", newRecipe);
+    //await newRecipe.save();
     res.status(201).json(newRecipe);
   } catch (error) {
     console.error("Error creating recipe:", error);
