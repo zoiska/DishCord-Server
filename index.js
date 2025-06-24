@@ -41,7 +41,12 @@ const storage = multer.diskStorage({
     console.log("File uploaded:", file.originalname);
   },
 });
-const upload = multer({ storage });
+const upload = multer({
+  storage,
+  limits: {
+    fileSize: 10 * 1024 * 1024, // 10 MB pro Datei
+  },
+});
 
 mongoose
   .connect(DB_URL)

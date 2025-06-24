@@ -26,7 +26,7 @@ async function getRecipeById(req, res) {
 async function createRecipe(req, res) {
   try {
     console.log("my files:", req.files);
-    const imageUrls = req.files?.map((file) => `/uploads/${req.file.filename}`) || [];
+    const imageUrls = req.files?.map((file) => `/uploads/${file.filename}`) || [];
     const newRecipe = new Recipe({
       ...req.body,
       imageUrls,
