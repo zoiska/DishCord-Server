@@ -31,7 +31,7 @@ async function createRecipe(req, res) {
       imageUrls,
     });
     console.log("New Recipe:", newRecipe);
-    await newRecipe.save();
+    await Recipe.insertOne(newRecipe);
     return res.status(201).json(newRecipe);
   } catch (error) {
     console.error("Error creating recipe:", error);
