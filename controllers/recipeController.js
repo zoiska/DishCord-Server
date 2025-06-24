@@ -25,19 +25,20 @@ async function getRecipeById(req, res) {
 
 async function createRecipe(req, res) {
   try {
-    const imageUrls = req.files?.map((file) => `/uploads/${req.file.filename}`) || [];
+    const imageUrls = req.files?.map((file) => `/uploads/${file.filename}`) || [];
+    const ingredients = req.body.ingredients ? JSON.parse(req.body.ingredients) : [];
     const newRecipe = new Recipe({
       ...req.body,
       imageUrls,
+      ingredients,
     });
-    await newRecipe.save();
-    res.status(201).json(newRecipe);
+    console.log("New Recipe:", newRecipe);
+    await Recipe.insertOne(newRecipe);
+    return res.status(201).json(newRecipe);
   } catch (error) {
     console.error("Error creating recipe:", error);
-    res.status(500).json({ error: "Error creating recipe" });
+    return res.status(500).json({ error: "Error creating recipe" });
   }
-
-  res.status(201).send("Create a new Recipe");
 }
 
 async function deleteRecipe(req, res) {
