@@ -32,13 +32,11 @@ async function createRecipe(req, res) {
     });
     console.log("New Recipe:", newRecipe);
     //await newRecipe.save();
-    res.status(201).json(newRecipe);
+    return res.status(201).json(newRecipe);
   } catch (error) {
     console.error("Error creating recipe:", error);
-    res.status(500).json({ error: "Error creating recipe" });
+    return res.status(500).json({ error: "Error creating recipe" });
   }
-
-  res.status(201).send("Create a new Recipe");
 }
 
 async function deleteRecipe(req, res) {
