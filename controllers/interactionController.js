@@ -142,8 +142,8 @@ async function createComment(req, res) {
     const { recipeId, commentText, timestamp } = req.body;
 
     try {
-      const userName = await User.findById(userId).select("username");
-      if (!userName) {
+      const user = await User.findById(userId).select("username");
+      if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
 
@@ -152,7 +152,7 @@ async function createComment(req, res) {
         return res.status(404).json({ message: "Recipe not found" });
       }
 
-      const newComment = { author: userName, timestamp: timestamp, commentText: commentText };
+      const newComment = { author: user.username, timestamp: timestamp, commentText: commentText };
       recipe.comments.push(newComment);
       await recipe.save();
 
