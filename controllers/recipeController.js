@@ -26,9 +26,11 @@ async function getRecipeById(req, res) {
 async function createRecipe(req, res) {
   try {
     const imageUrls = req.files?.map((file) => `/uploads/${file.filename}`) || [];
+    const ingredients = req.body.ingredients ? JSON.parse(req.body.ingredients) : [];
     const newRecipe = new Recipe({
       ...req.body,
       imageUrls,
+      ingredients,
     });
     console.log("New Recipe:", newRecipe);
     await Recipe.insertOne(newRecipe);
