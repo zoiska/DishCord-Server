@@ -94,6 +94,7 @@ app.get("/recipes/comments", (req, res) => {
 
 app.post("/recipes", upload.array("images", 5), (req, res) => {
   console.log("CREATING RECIPE");
+  console.log("Files received:", req.images);
   recipeController.createRecipe(req, res);
 });
 
